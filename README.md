@@ -13,7 +13,7 @@ After suggesting an optimizer, the package asks if you would like to proceed wit
 1. **Clone the Repository**
 
    ```bash
-   git clone https://your.repository.url/in_situ_optimization.git
+   git clone https://github.com/kbronstein56/Black-Box-Optimizer.git
    cd in_situ_optimization
    ```
 
@@ -25,7 +25,7 @@ After suggesting an optimizer, the package asks if you would like to proceed wit
 
 ## PMM-Specific Optimizations
 
-For users working on plasma metamaterial (PMM) optical computing experiments, the `pmm_optimizations` folder contains specialized scripts that implement the detailed hardware control, parameter mapping (e.g., using the Drude model), and experimental routines tailored to your setup.
+For users working on plasma metamaterial (PMM) optical computing experiments, the `PMM_scripts` folder contains specialized scripts that implement the detailed hardware control, parameter mapping (e.g., using the Drude model), and experimental routines tailored to your setup.
 
 *Note: Additional packages such as `minimalmodbus` or your hardware-specific modules are required for real experiments. For simulation, the package uses `FakePMMInSitu`.*
 

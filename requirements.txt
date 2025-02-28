@@ -6,3 +6,4 @@ RSInstrument>=1.53.1 # for PMM hardware/experiment
 pyyaml>=5.1 # for PMM hardware/experiment
 cma>=2.7
 matplotlib>=3.0.3 # for PMM hardware/experiment
+pandas>=2.8.2 #for curve fitting example

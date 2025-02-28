@@ -2,7 +2,7 @@
 User Objective Function for Viscosity Curve Fitting
 
 This module defines a function `user_objective` which computes the performance of a two-parameter 
-model for fitting viscosity data. The viscosity data are read from a CSV file ("viscosity_data.csv")
+model for fitting viscosity data. The viscosity data are read from a CSV file ("user_curve_fitting_viscosity_data.csv")
 that contains shear rate and measured viscosity values. The model assumes the following form:
 
     viscosity_predicted = a * exp(-b * shear_rate)
@@ -13,13 +13,14 @@ errors between the predicted viscosity and the measured viscosity, and returns t
 
 The ideal (optimal) performance is achieved when the predicted values closely match the data.
 For example, if the data were generated using a=50 and b=0.05 (with little noise), the optimizer 
-should converge to parameter values near these.
+should converge to parameter values near these and performance near zero.
 
 Expected user inputs:
     Enter the number fo parameters in your experiment:n2
     How many function ealuations can you experiment support: 1000
     What is the noise level: moderate
     Is your objective function smooth and continuous: yes
+    Custom Bounds: lower= 40,0 and upper= 60, 0.1
     --> Use Bayesian or CMA-ES
 """
 
@@ -31,7 +32,7 @@ def user_objective(parameters: np.ndarray) -> float:
     """
     Compute the performance of the viscosity curve fitting model.
 
-    This function reads viscosity data from 'viscosity_data.csv', applies a two-parameter model,
+    This function reads viscosity data from 'user_curve_fitting_viscosity_data.csv', applies a two-parameter model,
     and computes the negative sum of squared errors between the predicted viscosity and the measured
     viscosity. A higher (less negative) performance indicates a better fit.
 
@@ -43,9 +44,9 @@ def user_objective(parameters: np.ndarray) -> float:
         float: The performance value (negative sum of squared errors).
     """
     try:
-        data = pd.read_csv("viscosity_data.csv")
+        data = pd.read_csv("user_curve_fitting_viscosity_data.csv")
     except Exception as e:
-        raise RuntimeError("Error reading 'viscosity_data.csv': " + str(e))
+        raise RuntimeError("Error reading 'user_curve_fitting_viscosity_data.csv': " + str(e))
 
     # Extract data as NumPy arrays.
     shear_rate = data["shear_rate"].values
