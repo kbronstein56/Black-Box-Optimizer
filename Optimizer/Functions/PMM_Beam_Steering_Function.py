@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 """
-User Objective Function for Beam Steering Simulation
+Objective Function for Beam Steering Simulation
 
-This module defines a function ``user_objective`` that evaluates the beam steering
+This module defines a function that evaluates the beam steering
 performance for a plasma metamaterial device with 61 rods. It sets up the simulation
 domain using InversePMMDesign’s PMMI class, runs a finite-difference frequency-domain
 simulation (using the ceviche package), and computes an objective value based on the overlap
-of the simulated fields with the probe measurements. The model is intended to be used as the
-objective function in a black-box optimizer.
+of the simulated fields with the probe measurements. 
 
 For a given rod parameter vector (rho), the objective function returns a performance
 value (higher is better). In this example, an ideal configuration would yield an objective
@@ -15,14 +14,20 @@ value near 100.
 
 Note: In this simulation, we assume that the ideal rod parameter value is 0.3. The functions
 `Setup_Domain` and `Run_Evaluate` encapsulate the simulation setup and evaluation, respectively.
+
+Expected user inputs:
+    Enter the number fo parameters in your experiment: 61
+    How many function ealuations can you experiment support: 1000
+    What is the noise level: 
+    Is your objective function smooth and continuous: 
+    Custom Bounds: lower=-1 and upper=1
+    --> CMA-ES
 """
 
 import numpy as np
 import math
 import os
 
-# Import required modules from InversePMMDesign and ceviche.
-# For a real experiment, you might use a real hardware interface.
 from PMM.PMMInverse import PMMI, mode_overlap, field_mag_int, c
 from ceviche import fdfd_ez
 
@@ -59,7 +64,7 @@ def Setup_Domain():
     # Specify the design region where rod parameters are optimized.
     PPC.Design_Region((6.5, 6.5), (8, 9))
 
-    # Create a hexagonal rod array (plasma bulbs) in the design region.
+    # Create a hexagonal rod array of plasma bulbs in the design region.
     uniform = True
     PPC.Rod_Array_Hexagon_train(
         np.array([10.5, 11]), 5, b_i, 1,

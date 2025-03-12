@@ -67,15 +67,13 @@ def optimize_actor_critic(
             - np.ndarray: Best solution (parameter vector) found during training.
             - float: Best performance achieved by that solution.
     """
-    # Actor parameters: mean vector and fixed std
+
     actor_mean = np.random.uniform(lower_bound, upper_bound, num_parameters)
     actor_std = initial_std
 
-    # Critic parameters: linear function weights and bias
     critic_weights = np.random.randn(num_parameters) * 0.01
     critic_bias = 0.0
 
-    # Evaluate initial solution
     best_solution = actor_mean.copy()
     best_performance = objective_function(actor_mean)
 
