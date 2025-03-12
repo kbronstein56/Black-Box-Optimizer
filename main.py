@@ -182,11 +182,12 @@ def main():
     else:
         print(
             "\nPlease provide the name of your Python module (without the .py extension) "
-            "that defines a function named 'user_objective'."
+            "that defines a function named 'user_objective'. "
+            "It should be located in the 'functions' folder."
         )
         module_name = input("Module name (e.g., my_objective): ").strip()
         try:
-            user_module = importlib.import_module(module_name)
+            user_module = importlib.import_module("Functions." + module_name)
             objective_function = user_module.user_objective
         except Exception as e:
             print("Error importing your module:", e)
