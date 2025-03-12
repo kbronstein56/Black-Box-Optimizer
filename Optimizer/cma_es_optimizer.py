@@ -1,4 +1,4 @@
-"""Standard CMA-ES Optimizer for In-Situ Optimization.
+"""Standard CMA-ES Optimizer
 
 Provides a simplified implementation of the Covariance Matrix Adaptation
 Evolution Strategy (CMA-ES). The algorithm maintains a mean vector (representing

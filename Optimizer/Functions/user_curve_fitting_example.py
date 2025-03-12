@@ -16,7 +16,7 @@ For example, if the data were generated using a=50 and b=0.05 (with little noise
 should converge to parameter values near these and performance near zero.
 
 Expected user inputs:
-    Enter the number fo parameters in your experiment:n2
+    Enter the number fo parameters in your experiment: 2
     How many function ealuations can you experiment support: 1000
     What is the noise level: moderate
     Is your objective function smooth and continuous: yes
@@ -27,6 +27,7 @@ Expected user inputs:
 import numpy as np
 import pandas as pd
 import math
+import os
 
 def user_objective(parameters: np.ndarray) -> float:
     """
@@ -43,8 +44,9 @@ def user_objective(parameters: np.ndarray) -> float:
     Returns:
         float: The performance value (negative sum of squared errors).
     """
+    csv_path = os.path.join("Functions", "user_curve_fitting_viscosity_data.csv")
     try:
-        data = pd.read_csv("user_curve_fitting_viscosity_data.csv")
+        data = pd.read_csv(csv_path)
     except Exception as e:
         raise RuntimeError("Error reading 'user_curve_fitting_viscosity_data.csv': " + str(e))
 

@@ -1,4 +1,4 @@
-"""Actor-Critic Reinforcement Learning for In-Situ Optimization.
+"""Actor-Critic Reinforcement Learning
 
 This module implements a simplified one-step Actor-Critic approach for black-box
 optimization tasks. The actor is modeled as a Gaussian policy with a learned mean

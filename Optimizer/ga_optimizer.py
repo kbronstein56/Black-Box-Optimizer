@@ -1,11 +1,13 @@
-"""Genetic Algorithm Optimizer for In-Situ Optimization.
+"""
+Genetic Algorithm Optimizer
 
 This module provides a function to optimize a user-supplied objective function
-using a Genetic Algorithm (GA). Each individual is a vector of parameters,
-and the GA employs:
+using a Genetic Algorithm (GA) with advanced operators including stall detection
+and extreme mutation. Each individual is a vector of parameters, and the GA employs:
   - Tournament selection
   - Blend crossover
   - Gaussian mutation
+  - Stall detection with extreme mutation to reintroduce diversity
 
 The function returns the best solution found and its corresponding performance
 value (fitness).
@@ -21,7 +23,6 @@ import math
 import random
 import numpy as np
 
-
 def optimize_ga(
     objective_function,
     num_parameters,
@@ -30,24 +31,32 @@ def optimize_ga(
     init_min=-1.0,
     init_max=1.0,
     crossover_rate=0.9,
-    mutation_rate=0.1
+    mutation_rate=0.1,
+    stall_limit=2,
+    extreme_mutation_sigma=0.2,
+    extreme_mutation_fraction=1.0
 ):
-    """Optimize a given objective function using a Genetic Algorithm (GA).
+    """Optimize a given objective function using a Genetic Algorithm (GA) with advanced operators.
 
-    This function initializes a population of individuals (parameter vectors),
-    evolves them over several generations, and returns the best solution found
-    along with its performance.
+    This function initializes a population of individuals (parameter vectors), evolves them
+    over several generations, and returns the best solution along with its performance. In addition
+    to standard operators (tournament selection, blend crossover, and Gaussian mutation), the algorithm
+    monitors progress; if no improvement is seen for a certain number of generations (stall_limit),
+    it applies an extreme mutation to all individuals to help escape local minima.
 
     Args:
-        objective_function (callable): A function f(x) -> float that evaluates
-            the performance of a parameter vector. Higher is better.
-        num_parameters (int): The dimensionality of the parameter space.
-        population_size (int): Number of individuals in the GA population.
-        max_generations (int): How many generations to run the GA for.
-        init_min (float): Lower bound for initializing parameters.
-        init_max (float): Upper bound for initializing parameters.
-        crossover_rate (float): Probability that crossover is applied.
-        mutation_rate (float): Probability of mutating each gene.
+        objective_function (callable): A function f(x) -> float that evaluates the performance of a
+            parameter vector (higher is better).
+        num_parameters (int): Dimensionality of the parameter space.
+        population_size (int, optional): Number of individuals in the GA population.
+        max_generations (int, optional): Number of generations to run the GA.
+        init_min (float, optional): Lower bound for initializing parameters.
+        init_max (float, optional): Upper bound for initializing parameters.
+        crossover_rate (float, optional): Probability that crossover is applied.
+        mutation_rate (float, optional): Probability of mutating each gene.
+        stall_limit (int, optional): Number of generations with no improvement before triggering extreme mutation.
+        extreme_mutation_sigma (float, optional): Standard deviation used for extreme mutation.
+        extreme_mutation_fraction (float, optional): Fraction of genes to be mutated during extreme mutation.
 
     Returns:
         tuple:
@@ -56,17 +65,11 @@ def optimize_ga(
     """
 
     def create_individual():
-        """Create a random individual (vector) within the init_min, init_max range."""
-        return np.array([
-            random.uniform(init_min, init_max) for _ in range(num_parameters)
-        ])
+        """Create a random individual within the [init_min, init_max] range."""
+        return np.array([random.uniform(init_min, init_max) for _ in range(num_parameters)])
 
     def crossover(parent1, parent2):
-        """Perform blend crossover on two parents to produce two children.
-
-        The probability of crossover is determined by `crossover_rate`.
-        A random alpha is used to blend the genes of the two parents.
-        """
+        """Perform blend crossover on two parents to produce two children."""
         child1 = parent1.copy()
         child2 = parent2.copy()
         if random.random() < crossover_rate:
@@ -77,13 +80,22 @@ def optimize_ga(
         return child1, child2
 
     def mutate(individual):
-        """Mutate an individual's genes with some probability, using Gaussian noise."""
+        """Mutate each gene with probability mutation_rate using Gaussian noise, then clamp."""
         for i in range(num_parameters):
             if random.random() < mutation_rate:
-                noise = random.gauss(0.0, 0.05)  # standard deviation for mutation
+                noise = random.gauss(0.0, 0.05)
                 individual[i] += noise
-                # Clamp to [init_min, init_max]
                 individual[i] = max(min(individual[i], init_max), init_min)
+
+    def mutate_extreme(individual, sigma, fraction):
+        """Apply extreme mutation to a given individual on a fraction of genes."""
+        num_genes = len(individual)
+        num_to_mutate = int(num_genes * fraction)
+        indices = random.sample(range(num_genes), num_to_mutate)
+        for i in indices:
+            noise = random.gauss(0.0, sigma)
+            individual[i] += noise
+            individual[i] = max(min(individual[i], init_max), init_min)
 
     def select_parent(population, fitnesses):
         """Select a parent via tournament selection of size 3."""
@@ -98,17 +110,15 @@ def optimize_ga(
     population = [create_individual() for _ in range(population_size)]
     fitnesses = [objective_function(ind) for ind in population]
 
-    # Track best solution so far
     best_index = np.argmax(fitnesses)
     best_solution = population[best_index].copy()
     best_performance = fitnesses[best_index]
+    stall_counter = 0
 
     # Main evolutionary loop
     for gen in range(max_generations):
         new_population = []
         new_fitnesses = []
-
-        # Generate new individuals until we have a full population
         while len(new_population) < population_size:
             parent1 = select_parent(population, fitnesses)
             parent2 = select_parent(population, fitnesses)
@@ -120,17 +130,29 @@ def optimize_ga(
             new_fitnesses.append(objective_function(child1))
             new_fitnesses.append(objective_function(child2))
 
-        # Trim (if overshoot) and replace the old population
         population = new_population[:population_size]
         fitnesses = new_fitnesses[:population_size]
 
-        # Update best known solution
         current_best = np.max(fitnesses)
         if current_best > best_performance:
             best_performance = current_best
             best_solution = population[np.argmax(fitnesses)].copy()
+            stall_counter = 0  # reset stall counter on improvement
+        else:
+            stall_counter += 1
 
-        print(f"[GA] Generation {gen + 1}/{max_generations}, "
-              f"Best Performance: {best_performance:.4f}")
+        # If stalled for too long, apply extreme mutation to all individuals
+        if stall_counter >= stall_limit:
+            print(f"[GA] Stall detected at generation {gen+1}. Applying extreme mutation.")
+            for ind in population:
+                mutate_extreme(ind, extreme_mutation_sigma, extreme_mutation_fraction)
+            # Re-evaluate population after extreme mutation
+            fitnesses = [objective_function(ind) for ind in population]
+            if np.max(fitnesses) > best_performance:
+                best_performance = np.max(fitnesses)
+                best_solution = population[np.argmax(fitnesses)].copy()
+            stall_counter = 0
+
+        print(f"[GA] Generation {gen+1}/{max_generations}, Best Performance: {best_performance:.4f}")
 
     return best_solution, best_performance

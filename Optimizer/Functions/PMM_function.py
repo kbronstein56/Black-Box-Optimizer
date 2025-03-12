@@ -5,17 +5,13 @@ This module defines a function `user_objective` which interfaces with the PMM ex
 It sets the rod configuration (rho) using ArraySet_Rho and measures the waveguide performance
 using Wvg_Obj_Get. This is meant for in-situ optimization of plasma metamaterial devices.
 For real hardware, uncomment the PMMInSitu import and related lines.
-
-Note:
-    - Currently, it uses FakePMMInSitu for simulation.
-    - For real experiments, replace FakePMMInSitu with PMMInSitu and adjust file paths/configurations.
 """
 
 import numpy as np
 import time
 # For real hardware, uncomment the following line:
 # from PMMInSitu import PMMInSitu
-from FakePMMInSitu import FakePMMInSitu  # for simulation
+from Functions.FakePMMInSitu import FakePMMInSitu  # for simulation
 
 def user_objective(parameters: np.ndarray) -> float:
     """Evaluate the performance of a given rod configuration for a plasma metamaterial device.
@@ -36,8 +32,8 @@ def user_objective(parameters: np.ndarray) -> float:
 
     # Set rod parameters in the PMM device.
     pmm.ArraySet_Rho(parameters, pmm.f_a(7.0), knob=0.5, scale=1.0)
-    # If using real hardware, you might remove or adjust the delay below.
-    time.sleep(0.01)
+    # If using real hardware, might remove or adjust the delay below.
+    time.sleep(0.01) #remember physics based simulation will take a little bit
 
     # Measure waveguide performance.
     performance, _ = pmm.Wvg_Obj_Get(
@@ -51,9 +47,9 @@ def user_objective(parameters: np.ndarray) -> float:
         norms=[],
         duty_cycle=0.5
     )
-    # Deactivate bulbs after measurement.
+
     pmm.Deactivate_Bulb('all')
-    # Return the performance; higher means a better configuration.
+    # higher performance means a better configuration.
     return performance
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-"""Bayesian Optimization for In-Situ Optimization (Gaussian Process Based).
+"""Bayesian Optimization (Gaussian Process Based).
 
 This module provides a function to optimize a user-supplied objective function
 via Bayesian Optimization, using the `bayesian-optimization` library. The

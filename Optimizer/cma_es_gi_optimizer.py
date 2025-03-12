@@ -1,4 +1,4 @@
-"""CMA-ES with Gradient Information Optimizer for In-Situ Optimization.
+"""CMA-ES with Gradient Information Optimizer
 
 This module provides a simplified Covariance Matrix Adaptation Evolution Strategy (CMA-ES)
 that incorporates a basic "Gradient Information" (GI) update. The GI step uses a rough
