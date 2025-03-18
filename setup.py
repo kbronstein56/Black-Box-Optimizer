@@ -20,12 +20,12 @@ setuptools.setup(
     ],
     python_requires='>=3.6',
     install_requires=[
-        "numpy>=1.16.2",
+        "numpy>=2.0.1",
         "scipy>=1.2.1",
-        "matplotlib>=3.0.3",
-        "pandas>=1.0.0",
-        "bayes_opt>=1.2.0",
-        "pycma>=0.9.0",
+        "matplotlib>=3.10.0",
+        "pandas>=2.2.3",
+        "bayes_opt>=2.0.3",
+        "pycma>=4.0.0",
     ],
 )
 
