@@ -1,9 +1,16 @@
-numpy>=1.16.2
-bayesian-optimization>=1.2.0
-pyserial>=3.5 # for PMM hardware/experiment
-minimalmodbus>=2.0.1 # for PMM hardware/experiment
-RSInstrument>=1.53.1 # for PMM hardware/experiment
-pyyaml>=5.1 # for PMM hardware/experiment
-cma>=2.7
-matplotlib>=3.0.3 # for PMM hardware/experiment
-pandas>=2.8.2 #for curve fitting example
+numpy>=2.0.1
+bayes_opt>=2.0.3
+cma>=4.0.0
+matplotlib>=3.10.0 # for PMM hardware/experiment
+pandas>=2.2.3 #for curve fitting example
+
+"""
+The following requirements are specific to PMM device setups.
+"""
+
+# pyserial>=3.5 # for PMM hardware/experiment
+# minimalmodbus>=2.1.1 # for PMM hardware/experiment
+# RSInstrument>=1.53.1 # for PMM hardware/experiment
+# pyyaml>=5.1 # for PMM hardware/experiment
+# ceviche # for experiment
+# time #fakepmminsitu
