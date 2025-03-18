@@ -3,6 +3,7 @@ bayes_opt>=2.0.3
 cma>=4.0.0
 matplotlib>=3.10.0 # for PMM hardware/experiment
 pandas>=2.2.3 #for curve fitting example
+scipy>=1.2.1
 
 """
 The following requirements are specific to PMM device setups.
@@ -13,4 +14,3 @@ The following requirements are specific to PMM device setups.
 # RSInstrument>=1.53.1 # for PMM hardware/experiment
 # pyyaml>=5.1 # for PMM hardware/experiment
 # ceviche # for experiment
-# time #fakepmminsitu
