@@ -22,6 +22,12 @@ After suggesting an optimizer, the package asks if you would like to proceed wit
     pip install -r requirements.txt
     ```
 
+## Optimizers
+- Genetic Algorithm: useful for high noise, descrete or large situations
+- CMA-ES: useful for continuous, moderate dimension situations
+- CMA-ES-GI: useful for smooth and high dimension situations
+- Bayesian: useful for expensive functions and low dimensions
+- Actor Critic: real-time adaptive control
 
 ## PMM-Specific Optimizations
 
