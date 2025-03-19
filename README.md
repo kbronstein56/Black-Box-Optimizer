@@ -6,11 +6,11 @@ This package provides a modular framework for optimizing experimental setups usi
 
 The main script interactively asks you a series of questions about your experiment and objective function. Based on your answers (e.g., number of parameters, evaluation budget, noise level, smoothness, etc.), the script automatically suggest an optimizer. After suggesting an optimizer, the package asks if you would like to proceed with the suggestion or choose another method. 
 
-You also have the option to use an example objective function or supply your own function via a Python module that defines a function called `user_objective`. This function should be in the Functions folder, which is in the Optimizer folder.
+You also have the option to use an example objective function or supply your own function via a Python module that defines a function called `user_objective`. This function should be in the `Functions` folder, which is in the `Optimizer` folder.
 
 ## Pip Installation
 
-1. First make sure the main.py imports are written with <Optimizer.> in order to locate them in the folder.
+1. First make sure the main.py imports are written with `Optimizer.` in order to locate them in the folder.
 2. Set up your virtual environment.
    ```bash
    python3 -m venv .venv
