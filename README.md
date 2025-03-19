@@ -33,7 +33,7 @@ After suggesting an optimizer, the package asks if you would like to proceed wit
 
    ```bash
    git clone https://github.com/kbronstein56/Black-Box-Optimizer.git
-   cd in_situ_optimization
+   cd Black-Box-Optimizer
    ```
 
 2. **Install Dependencies**
