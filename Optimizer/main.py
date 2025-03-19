@@ -30,11 +30,11 @@ import time
 import numpy as np
 
 # Import the separate optimizer modules
-from ga_optimizer import optimize_ga
-from cma_es_optimizer import optimize_cma_es
-from cma_es_gi_optimizer import optimize_cma_es_gi
-from bayesian_optimizer import optimize_bayesian
-from actor_critic_optimizer import optimize_actor_critic
+from Optimizer.ga_optimizer import optimize_ga
+from Optimizer.cma_es_optimizer import optimize_cma_es
+from Optimizer.cma_es_gi_optimizer import optimize_cma_es_gi
+from Optimizer.bayesian_optimizer import optimize_bayesian
+from Optimizer.actor_critic_optimizer import optimize_actor_critic
 
 
 def example_objective_function(parameters: np.ndarray) -> float:
