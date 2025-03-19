@@ -8,6 +8,25 @@ The main script interactively asks you a series of questions about your experime
 
 After suggesting an optimizer, the package asks if you would like to proceed with the suggestion or choose another method. You also have the option to use an example objective function or supply your own function (via a Python module that defines a function called `user_objective`).
 
+## Pip Installation
+
+1. First make sure the main.py imports are written with <Optimizer.> in order to locate them in the folder.
+2. Set up your virtual environment.
+   ```bash
+   python3 -m venv .venv
+   ```
+   ```bash
+   source .venv/bin/activate
+   ```
+3. Install the package.
+   ```bash
+   pip install git+https://github.com/kbronstein56/Black-Box-Optimizer.git
+   ```
+5. Launch optimizer.
+   ```bash
+   python3 -m Optimizer.main
+   ```
+
 ## Installation
 
 1. **Clone the Repository**
