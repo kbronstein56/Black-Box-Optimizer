@@ -24,7 +24,7 @@ setuptools.setup(
         "scipy>=1.2.1",
         "matplotlib>=3.10.0",
         "pandas>=2.2.3",
-        "bayes_opt>=2.0.3",
+        "bayesian-optimization>=2.0.3",
         "pycma>=4.0.0",
     ],
 )
