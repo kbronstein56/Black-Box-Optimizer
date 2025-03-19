@@ -4,9 +4,9 @@ This package provides a modular framework for optimizing experimental setups usi
 
 ## Overview
 
-The main script interactively asks you a series of questions about your experiment and objective function. Based on your answers (e.g., number of parameters, evaluation budget, noise level, smoothness, etc.), the script automatically suggest an optimizer.
+The main script interactively asks you a series of questions about your experiment and objective function. Based on your answers (e.g., number of parameters, evaluation budget, noise level, smoothness, etc.), the script automatically suggest an optimizer. After suggesting an optimizer, the package asks if you would like to proceed with the suggestion or choose another method. 
 
-After suggesting an optimizer, the package asks if you would like to proceed with the suggestion or choose another method. You also have the option to use an example objective function or supply your own function (via a Python module that defines a function called `user_objective`).
+You also have the option to use an example objective function or supply your own function via a Python module that defines a function called `user_objective`. This function should be in the Functions folder.
 
 ## Pip Installation
 
